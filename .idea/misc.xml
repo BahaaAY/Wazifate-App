@@ -6,7 +6,18 @@
         <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/drawable/custom_edittext.xml" value="0.215" />
         <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/drawable/ic_wave.xml" value="0.215" />
         <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/drawable/shape_bg.xml" value="0.215" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/drawable/side_nav_bar.xml" value="0.1935" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/activity_home.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/app_bar_home.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/content_home.xml" value="0.2731936725096195" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/fragment_gallery.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/fragment_home.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/fragment_slideshow.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/list_item_job.xml" value="0.2975630611372381" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/layout/nav_header_home.xml" value="0.284737067122702" />
+        <entry key="..\:/AndroidStudioProjects/Wazifate/app/src/main/res/menu/activity_main_drawer.xml" value="0.284737067122702" />
       </map>
     </option>
   </component>
