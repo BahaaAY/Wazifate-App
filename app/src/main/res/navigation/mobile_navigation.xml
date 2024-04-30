@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.wazifate.wazifate.HomeScreen.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_quizhome"
+        android:name="com.wazifate.wazifate.HomeScreen.ui.quiz_home.QuizHomeFragment"
+        android:label="Quizzes"
+        tools:layout="@layout/fragment_quiz_home" />
 
     <fragment
         android:id="@+id/nav_slideshow"
