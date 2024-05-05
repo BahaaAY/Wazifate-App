@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     tools:context=".QuizScreen">
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,21 +89,21 @@
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-      tools:text="What is the
-last name of Hitler?" />
+      tools:text="This is a placeholder question?" />
 
   <com.google.android.material.button.MaterialButton
       android:id="@+id/btnNextQuestion"
-      style="@style/btnStyle"
+      app:cornerRadius = "12dp"
       android:layout_width="0dp"
-      android:layout_marginBottom="28dp"
+      android:layout_height="60dp"
       android:imeOptions="actionDone"
       android:singleLine="true"
       android:text="@string/next"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="@+id/textView78"
       app:layout_constraintHorizontal_bias="1.0"
-      app:layout_constraintStart_toStartOf="@+id/textView78" />
+      app:layout_constraintStart_toStartOf="@+id/textView78"
+      app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
   <LinearLayout
       android:id="@+id/radioGroup"

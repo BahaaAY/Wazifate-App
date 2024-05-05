@@ -64,6 +64,7 @@ public class QuizQuestion {
     }
 
     public String getCorrectAnswer() {
+        System.out.println("choices: " + choices.toString());
         for (QuizQuestionChoice choice : choices) {
             if (choice.isCorrect()) {
                 return choice.getChoice();

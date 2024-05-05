@@ -37,11 +37,10 @@ public class QuizScreen extends AppCompatActivity {
     private CardView radioButton1, radioButton2, radioButton3, radioButton4;
     private List<QuizQuestion> questions;
     private ProgressBar progressBar;
-    private int correctQuestion = 0;
     String txt;
     private ImageView cardBg, backArrowBTN, cardBg2, cardBg3, cardBg4;
 
-
+    private int correctQuestion = 0;
     private ApiService apiService;
 
     @Override
@@ -49,21 +48,21 @@ public class QuizScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quiz);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         apiService = RetrofitClient.getInstance().getRestApi();
 
         Intent intent = getIntent();
         int quizId = intent.getIntExtra("quizId", 1);
         System.out.println("Quiz ID: " + quizId);
         initView();
-//        variantClick1();
-//        variantClick2();
-//        variantClick3();
-//        variantClick4();
+        variantClick1();
+        variantClick2();
+        variantClick3();
+        variantClick4();
         apiService.getQuizQuestions(quizId).enqueue(new Callback<List<QuizQuestion>>() {
             @Override
             public void onResponse(Call<List<QuizQuestion>> call, Response<List<QuizQuestion>> response) {
@@ -105,26 +104,30 @@ public class QuizScreen extends AppCompatActivity {
 
                 if (!txt.isEmpty()) {
 
+                    System.out.println("Current Question Index: " + currentQuestionIndex);
+                    System.out.println("Questions Size: " + questions.size());
+                    System.out.println("Questio: " + questions.get(currentQuestionIndex).toString());
+                    System.out.println("Correct Answer: " + questions.get(currentQuestionIndex).getCorrectAnswer());
+
                     //check if the answer is correct
                     if (questions.get(currentQuestionIndex).getCorrectAnswer().equals(txt)) {
                         correctQuestion++;
                     }
 
                     currentQuestionIndex++;
+                    progressBar.setProgress(currentQuestionIndex * 10);
                     variantClear();
                     if (btnNext.getText().equals(getString(R.string.next))) {
                         displayNextQuestions();
                     } else {
-//                        Intent intentResult = new Intent(GeographyOrLiteratureQuizActivity.this, FinalResultActivity.class);
-//                        intentResult.putExtra(Constants.SUBJECT, subject);
-//                        intentResult.putExtra(Constants.CORRECT, correctQuestion);
-//                        intentResult.putExtra(Constants.TYPE, "math");
-//                        intentResult.putExtra(Constants.INCORRECT, Constants.QUESTION_SHOWING - correctQuestion);
-//                        intentResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        startActivity(intentResult);
+                        Intent intentResult = new Intent(QuizScreen.this, ResultActivity.class);
+                        intentResult.putExtra("correctCount", correctQuestion);
+                        intentResult.putExtra("incorrectCount", questions.size()-correctQuestion);
+                        intentResult.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intentResult);
                     }
                 } else {
-                    Toast.makeText(QuizScreen.this, "wwwwww", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizScreen.this, "Select an answer!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -194,11 +197,11 @@ public class QuizScreen extends AppCompatActivity {
         setAnswersToRadioButton();
         tvQuestion.setText(questions.get(currentQuestionIndex).getQuestion());
         tvQuestionNumber.setText("" + (currentQuestionIndex + 1));
-        progressBar.setProgress(currentQuestionIndex * 10);
-        progressBar.setMax(100);
+
+        progressBar.setMax(questions.size()*10);
 
 
-        if (currentQuestionIndex == 10 - 1) {
+        if (currentQuestionIndex == questions.size() - 1) {
             btnNext.setText("Finish");
         }
     }
