@@ -1,5 +1,6 @@
 package com.wazifate.wazifate.Models.Jobs;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.wazifate.wazifate.JobTestScreen;
 import com.wazifate.wazifate.R;
 
 import java.util.List;
@@ -56,12 +58,22 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.locationTextView.setText(job.getLocation());
         holder.jobTypeTextView.setText(job.getJobtype());
         holder.salaryRangeTextView.setText("" + job.getMinSalary() + " - " + job.getMaxSalary());
+        if(job.isHasTest())
+        {
+            holder.applyNowButton.setTag(job.getId());
+            holder.applyNowButton.setText("Take Test");
+        }else
+        {
+            holder.applyNowButton.setText("No Test Available");
+            holder.applyNowButton.setEnabled(false);
+        }
 
         holder.applyNowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //get id of the job and print it
-                Snackbar.make(v, "Apply Now Clicked on: " + jobs.get(holder.getAdapterPosition()).getId(), Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(v.getContext(), JobTestScreen.class);
+                i.putExtra("jobId", Integer.parseInt(v.getTag().toString()));
+                v.getContext().startActivity(i);
             }
         });
     }

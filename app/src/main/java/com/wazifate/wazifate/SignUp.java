@@ -16,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.snackbar.Snackbar;
 import com.wazifate.wazifate.ApiService.ApiService;
 import com.wazifate.wazifate.ApiService.RetrofitClient;
-import com.wazifate.wazifate.HomeScreen.HomeActivity;
 import com.wazifate.wazifate.Models.auth.AuthResponse;
 
 import retrofit2.Call;
@@ -81,7 +80,7 @@ public class SignUp extends AppCompatActivity {
 
                                      //redirect to login page
 
-                                     Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                     Intent intent = new Intent(SignUp.this, LoginActivity.class);
                                      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                                      startActivity(intent);
                                      finish();

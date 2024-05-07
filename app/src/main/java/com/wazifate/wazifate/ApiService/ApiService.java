@@ -50,6 +50,15 @@ public interface ApiService {
     Call<List<QuizQuestion>> getQuizQuestions(
             @Query("quizId") int quizId
     );
+    @GET("test/test-questions.php?")
+    Call<List<QuizQuestion>> getJobQuestions(
+            @Query("jobId") int jobId
+    );
 
+    @GET("save-score.php?")
+    Call<String> saveScore(
+            @Query("score") int score,
+            @Query("username") String username
+    );
 
 }

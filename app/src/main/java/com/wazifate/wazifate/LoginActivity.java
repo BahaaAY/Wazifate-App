@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView signUpButton;
@@ -59,7 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                         if(response.isSuccessful())
                         {
-                            Intent i = new Intent(mContext, HomeActivity.class);
+                            //save to shared preferences
+
+                            getSharedPreferences("wazifate",MODE_PRIVATE).edit().putString("username", usernameTextField.getText().toString()).apply();
+
+
+                            Intent i = new Intent(mContext, SelectorActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                             startActivity(i);
                             finish();

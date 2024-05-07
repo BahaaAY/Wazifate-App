@@ -17,10 +17,15 @@ import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wazifate.wazifate.ApiService.ApiService;
 import com.wazifate.wazifate.ApiService.RetrofitClient;
+import com.wazifate.wazifate.Models.Jobs.Job;
+import com.wazifate.wazifate.Models.Jobs.JobAdapter;
 import com.wazifate.wazifate.Models.Quiz.QuizQuestion;
+import com.wazifate.wazifate.R;
 
 import java.util.List;
 
@@ -28,7 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuizScreen extends AppCompatActivity {
+public class JobTestScreen extends AppCompatActivity {
+    private ApiService apiService;
     private int currentQuestionIndex = 0;
     private TextView tvQuestion, tvQuestionNumber, text1, text2, text3, text4;
     private Button btnNext;
@@ -39,32 +45,29 @@ public class QuizScreen extends AppCompatActivity {
     private ImageView cardBg, backArrowBTN, cardBg2, cardBg3, cardBg4;
 
     private int correctQuestion = 0;
-    private ApiService apiService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_quiz);
+        setContentView(R.layout.activity_job_test_screen);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        apiService = RetrofitClient.getInstance().getRestApi();
-
-        Intent intent = getIntent();
-        int quizId = intent.getIntExtra("quizId", 1);
-        System.out.println("Quiz ID: " + quizId);
+        int jobId = getIntent().getIntExtra("jobId", 1);
+System.out.println("Job ID: " + jobId);
         initView();
         variantClick1();
         variantClick2();
         variantClick3();
         variantClick4();
-        apiService.getQuizQuestions(quizId).enqueue(new Callback<List<QuizQuestion>>() {
+        apiService = RetrofitClient.getInstance().getRestApi();
+
+        apiService.getJobQuestions(jobId).enqueue(new Callback<List<QuizQuestion>>() {
             @Override
             public void onResponse(Call<List<QuizQuestion>> call, Response<List<QuizQuestion>> response) {
-                    questions = response.body();
+                questions = response.body();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     questions.forEach(quizQuestion -> {
                         System.out.println("Question: " + quizQuestion.getQuestion());
@@ -77,15 +80,7 @@ public class QuizScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<QuizQuestion>> call, Throwable t) {
-                Toast.makeText(QuizScreen.this, "Failed to load questions", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        backArrowBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+                Toast.makeText(JobTestScreen.this, "Failed to load questions", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,21 +109,38 @@ public class QuizScreen extends AppCompatActivity {
                         variantClear();
                         displayNextQuestion();
                     } else {
+                        //save score online
+                        //get username from shared preferences
+                        String user = getSharedPreferences("wazifate",MODE_PRIVATE).getString("username", "user");
+                        System.out.println("username: " + user);
+
+                        apiService.saveScore(correctQuestion,user).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(JobTestScreen.this, "Score saved", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                System.out.println("Failed to save score");
+                            }
+                        });
+
                         System.out.println("Will start intent");
-                        Intent intent1 = new Intent(QuizScreen.this, ResultActivity.class);
+                        Intent intent1 = new Intent(JobTestScreen.this, ResultActivity.class);
                         intent1.putExtra("correctCount", correctQuestion);
                         intent1.putExtra("incorrectCount", questions.size()-correctQuestion);
                         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                         startActivity(intent1);
                     }
                 } else {
-                    Toast.makeText(QuizScreen.this, "Select an answer!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JobTestScreen.this, "Select an answer!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
         });
-
-
 
     }
 
@@ -237,5 +249,11 @@ public class QuizScreen extends AppCompatActivity {
         radioButton2 = findViewById(R.id.radioButton2);
         radioButton3 = findViewById(R.id.radioButton3);
         radioButton4 = findViewById(R.id.radioButton4);
+        backArrowBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

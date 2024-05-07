@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class RetrofitClient {
-    private static String API_BASE_URL = "http://192.168.1.3/wazifate/api/";
+    private static String API_BASE_URL = "https://wazifate1.000webhostapp.com/api/";
     private static Retrofit retrofit;
     private static RetrofitClient mInstance;
     private static Gson gson;

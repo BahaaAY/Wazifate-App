@@ -14,8 +14,10 @@ public class Job {
     String maxSalary;
     @SerializedName("salary")
     String salaryCurrency;
+    @SerializedName("has_test")
+    boolean hasTest;
 
-    public Job(String id, String jobtitle, String jobtype, String location, String minSalary, String maxSalary, String salaryCurrency) {
+    public Job(String id, String jobtitle, String jobtype, String location, String minSalary, String maxSalary, String salaryCurrency, boolean hasTest) {
         this.id = id;
         this.jobtitle = jobtitle;
         this.jobtype = jobtype;
@@ -23,6 +25,15 @@ public class Job {
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
         this.salaryCurrency = salaryCurrency;
+        this.hasTest = hasTest;
+    }
+
+    public boolean isHasTest() {
+        return hasTest;
+    }
+
+    public void setHasTest(boolean hasTest) {
+        this.hasTest = hasTest;
     }
 
     public String getId() {
